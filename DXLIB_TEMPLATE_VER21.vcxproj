@@ -137,7 +137,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Actor\Actor.cpp" />
     <ClCompile Include="source\AppMain.cpp" />
+    <ClCompile Include="source\Math\Vector2.cpp" />
+    <ClCompile Include="source\Scene\InGameScene.cpp" />
+    <ClCompile Include="source\Scene\SceneManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Actor\Actor.h" />
+    <ClInclude Include="source\Math\MathUtils.h" />
+    <ClInclude Include="source\Math\Vector2.h" />
+    <ClInclude Include="source\Scene\InGameScene.h" />
+    <ClInclude Include="source\Scene\SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
