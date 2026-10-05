@@ -138,6 +138,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Actor\Actor.cpp" />
+    <ClCompile Include="source\Actor\Block\Block.cpp" />
+    <ClCompile Include="source\Actor\Block\Dokan.cpp" />
+    <ClCompile Include="source\Actor\Block\HiddenBlock.cpp" />
+    <ClCompile Include="source\Actor\Block\ItemBlock.cpp" />
     <ClCompile Include="source\Actor\Enemy\Kuribo.cpp" />
     <ClCompile Include="source\Actor\Item\1UP.cpp" />
     <ClCompile Include="source\Actor\Item\Coin.cpp" />
@@ -146,6 +150,7 @@
     <ClCompile Include="source\Actor\Player\Mario.cpp" />
     <ClCompile Include="source\Actor\Enemy\Nokonoko.cpp" />
     <ClCompile Include="source\AppMain.cpp" />
+    <ClCompile Include="source\File\StageData.cpp" />
     <ClCompile Include="source\Input\InputManager.cpp" />
     <ClCompile Include="source\Math\Vector2.cpp" />
     <ClCompile Include="source\Scene\InGameScene.cpp" />
@@ -154,6 +159,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Actor\Actor.h" />
+    <ClInclude Include="source\Actor\Block\Block.h" />
+    <ClInclude Include="source\Actor\Block\Dokan.h" />
+    <ClInclude Include="source\Actor\Block\HiddenBlock.h" />
+    <ClInclude Include="source\Actor\Block\ItemBlock.h" />
     <ClInclude Include="source\Actor\Enemy\Kuribo.h" />
     <ClInclude Include="source\Actor\Item\1UP.h" />
     <ClInclude Include="source\Actor\Item\Coin.h" />
@@ -161,6 +170,7 @@
     <ClInclude Include="source\Actor\Item\Kinoko.h" />
     <ClInclude Include="source\Actor\Player\Mario.h" />
     <ClInclude Include="source\Actor\Enemy\Nokonoko.h" />
+    <ClInclude Include="source\File\StageData.h" />
     <ClInclude Include="source\Input\InputManager.h" />
     <ClInclude Include="source\Math\MathUtils.h" />
     <ClInclude Include="source\Math\Vector2.h" />
