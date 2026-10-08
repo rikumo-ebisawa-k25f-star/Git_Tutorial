@@ -178,9 +178,6 @@
     <ClInclude Include="source\Scene\SceneManager.h" />
     <ClInclude Include="source\Scene\TitleScene.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\Downloads\MApP.csv" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,60 +1,87 @@
 #include <DxLib.h>
-#include"Input/InputManager.h"
+#include <algorithm>
+#include "File/StageData.h"
 
-float GetDeltaSecond();
+// 描画関数のプロトタイプ宣言
+void RenderStage(float cameraX, float cameraY, int blockGraph);
 
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {
-	ChangeWindowMode(TRUE);					// ウィンドウモードで起動
-	SetGraphMode(640, 480, 32);				// 画面サイズと色深度を設定
-	// DXライブラリの初期化
-	if (DxLib_Init() == -1)
-	{
-		return -1;						// 初期化に失敗したら異常終了
-	}
-	SetDrawScreen(DX_SCREEN_BACK);		// 裏画面への描画を有効化(ダブルバッファ)
+	ChangeWindowMode(TRUE);
+	SetGraphMode(640, 480, 32);
+	if (DxLib_Init() == -1) return -1;
+	SetDrawScreen(DX_SCREEN_BACK);
 
+	// 1. マップデータの読み込み
+	StageData::Get()->Load();
 
-	float time = 0.0f;
-	float time_speed = 60.0f;
+	// 2. 床画像の読み込み（画像ファイル名を入れる）
+	// ※ 画像がまだない場合はコメントアウトしてください
+	int blockGraph = LoadGraph("block.png");
 
-	//メインループ
+	float cameraX = 0.0f;
+	float cameraY = 0.0f;
+
 	while (ProcessMessage() != -1)
 	{
-		time += GetDeltaSecond();
-		if (time >= (1.0f / time_speed))
-		{
-			time = 0.0;
-			//入力の更新処理
-			
-			//InputUpdate();
-			//シーンの更新処理
+		// テスト用：右キーでカメラ移動
+		if (CheckHitKey(KEY_INPUT_RIGHT)) cameraX += 4.0f;
+		if (CheckHitKey(KEY_INPUT_LEFT))  cameraX = std::max(0.0f, cameraX - 4.0f);
 
-			ClearDrawScreen();
+		ClearDrawScreen();
 
-			ScreenFlip();
-		}
+		// 3. 描画関数を呼び出す
+		RenderStage(cameraX, cameraY, blockGraph);
+
+		ScreenFlip();
 	}
+
+	StageData::Destroy();
 	DxLib_End();
 	return 0;
 }
 
-/// <summary>
-/// 1フレームにかかった時間を計測する
-/// </summary>
-/// <returns></returns>1フレームにかかった時間
-float GetDeltaSecond()
+void RenderStage(float cameraX, float cameraY, int blockGraph)
 {
-	//PCが起動されてからの時間を計測する(戻り値はマイクロ秒
-	static LONGLONG old_time = GetNowHiPerformanceCount();	// 　前回の取得時間
+	StageData* stage = StageData::Get();
+	const auto& mapData = stage->GetAll();
+	if (mapData.empty()) return;
 
-	LONGLONG current_time = GetNowHiPerformanceCount();	//現在の取得時間
+	// 画面に見える範囲（インデックス）を計算
+	int startX = static_cast<int>(cameraX / StageData::CHIP_SIZE);
+	int endX = static_cast<int>((cameraX + 640.0f) / StageData::CHIP_SIZE) + 1;
+	int startY = static_cast<int>(cameraY / StageData::CHIP_SIZE);
+	int endY = static_cast<int>((cameraY + 480.0f) / StageData::CHIP_SIZE) + 1;
 
-	// 現在時間と前回時間の差分を取得する
-	// マイクロ秒→秒に単位を変換する
-	float result = (float)(current_time - old_time) * 1.0e-6f;
-	old_time = current_time;
+	int mapHeight = static_cast<int>(mapData.size());
+	startY = std::max(0, std::min(startY, mapHeight));
+	endY = std::max(0, std::min(endY, mapHeight));
 
-	// 計測結果を戻す
-	return result;
+	for (int y = startY; y < endY; ++y)
+	{
+		int mapWidth = static_cast<int>(mapData[y].size());
+		int currentStartX = std::max(0, std::min(startX, mapWidth));
+		int currentEndX = std::max(0, std::min(endX, mapWidth));
+
+		for (int x = currentStartX; x < currentEndX; ++x)
+		{
+			if (mapData[y][x] == ePanelID::eNone) continue;
+
+			// 画面上の表示位置を計算（ワールド座標 - カメラ座標）
+			int screenX = static_cast<int>(x * StageData::CHIP_SIZE - cameraX);
+			int screenY = static_cast<int>(y * StageData::CHIP_SIZE - cameraY);
+			int chipSize = static_cast<int>(StageData::CHIP_SIZE);
+
+			// --- 画像描画 ---
+			if (blockGraph != -1)
+			{
+				DrawGraph(screenX, screenY, blockGraph, TRUE);
+			}
+			else
+			{
+				// 画像がない場合の仮描画（茶色の四角）
+				DrawBox(screenX, screenY, screenX + chipSize, screenY + chipSize, GetColor(165, 42, 42), TRUE);
+			}
+		}
+	}
 }
