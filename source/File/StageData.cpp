@@ -26,3 +26,14 @@ void StageData::Load()
 		if (!row.empty()) data.push_back(row);
 	}
 }
+
+StageData* StageData::Get()
+{
+	static StageData instance;
+	return &instance;
+}
+
+void StageData::Unload()
+{
+	data.clear();
+}
