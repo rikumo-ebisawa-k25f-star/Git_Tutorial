@@ -96,7 +96,7 @@ void DrawMap(int blockHandle) {
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     // DXƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—
     ChangeWindowMode(TRUE);
-    SetGraphMode(640, 480, 32);
+    SetGraphMode(1024, 768, 32);
     if (DxLib_Init() == -1) return -1;
     SetDrawScreen(DX_SCREEN_BACK);
 
