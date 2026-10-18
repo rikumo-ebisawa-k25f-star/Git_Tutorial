@@ -46,23 +46,28 @@
 int g_MapData[MAP_HEIGHT][MAP_WIDTH];
 
 // CSVファイルを読み込む関数
-bool LoadMapCSV(const char* filePath) {
+bool LoadMapCSV(const char* filePath) 
+{
     FILE* fp = NULL;
     // ファイルを開く
     errno_t err = fopen_s(&fp, filePath, "r");
-    if (err != 0 || fp == NULL) {
+    if (err != 0 || fp == NULL) 
+    {
         return false; // ファイルが開けなかった場合
     }
 
     // CSVデータを1マスずつ読み込む
-    for (int y = 0; y < MAP_HEIGHT; y++) {
-        for (int x = 0; x < MAP_WIDTH; x++) {
+    for (int y = 0; y < MAP_HEIGHT; y++) 
+    {
+        for (int x = 0; x < MAP_WIDTH; x++) 
+        {
             // 数字を1つ読み込む
             fscanf_s(fp, "%d", &g_MapData[y][x]);
 
             // カンマまたは改行を読み飛ばす
             char c = fgetc(fp);
-            if (c == '\r') { // Windowsの改行コード対策
+            if (c == '\r')  // Windowsの改行コード対策
+            {
                 fgetc(fp); // '\n' を読み捨てる
             }
         }
@@ -73,15 +78,19 @@ bool LoadMapCSV(const char* filePath) {
 }
 
 // マップを描画する関数
-void DrawMap(int blockHandle) {
-    for (int y = 0; y < MAP_HEIGHT; y++) {
-        for (int x = 0; x < MAP_WIDTH; x++) {
+void DrawMap(int blockHandle) 
+{
+    for (int y = 0; y < MAP_HEIGHT; y++) 
+    {
+        for (int x = 0; x < MAP_WIDTH; x++) 
+        {
             // 描画する画面上の座標を計算
             int drawX = x * BLOCK_SIZE;
             int drawY = y * BLOCK_SIZE;
 
             // 値が 1（床）の場合は画像を描画
-            if (g_MapData[y][x] == 1) {
+            if (g_MapData[y][x] == 1) 
+            {
                 // 画像がある場合
                 DrawGraph(drawX, drawY, blockHandle, TRUE);
 
@@ -93,7 +102,8 @@ void DrawMap(int blockHandle) {
 }
 
 // メイン関数
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) 
+{
     // DXライブラリ初期化処理
     ChangeWindowMode(TRUE);
     SetGraphMode(1024, 768, 32);
@@ -101,7 +111,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SetDrawScreen(DX_SCREEN_BACK);
 
     // CSV読み込み（パスは環境に合わせて調整してください）
-    if (!LoadMapCSV("assets/Data/MAPp.csv")) {
+    if (!LoadMapCSV("assets/Data/MAPp.csv")) 
+    {
         // 読み込み失敗時の処理
         printf("CSVファイルの読み込みに失敗しました。\n");
     }
@@ -110,7 +121,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     int blockImg = LoadGraph("assets/Images/block.png");
 
     // メインループ
-    while (ProcessMessage() == 0 && ClearDrawScreen() == 0) {
+    while (ProcessMessage() == 0 && ClearDrawScreen() == 0) 
+    {
 
         // マップを描画
         DrawMap(blockImg);
