@@ -1,1 +1,59 @@
-#include"Kuribo.h"
+#include "Kuribo.h"
+#include <DxLib.h>
+
+Kuribo::Kuribo()
+{
+    x = 0.0f;
+    y = 0.0f;
+    speed = 0.0f;
+    state = KuriboState::eDeath;
+}
+
+Kuribo::~Kuribo()
+{
+}
+
+void Kuribo::Init(float startX, float startY, float moveSpeed)
+{
+    x = startX;
+    y = startY;
+    speed = moveSpeed;
+
+    state = KuriboState::eSave;
+}
+
+bool Kuribo::Update(float delta_time)
+{
+    // éÄñSÇµÇƒÇ¢ÇΩÇÁçXêVÇµÇ»Ç¢
+    if (state == KuriboState::eDeath)
+    {
+        return false;  
+    }
+
+    // âEï˚å¸Ç÷à⁄ìÆ
+    x += speed * delta_time;
+
+    // âÊñ ÇÃâEí[Çí¥Ç¶ÇΩÇÁéÄñS
+    if (x > 640.0f)
+    {
+        state = KuriboState::eDeath;
+        return false;
+    }
+
+    return true;
+}
+
+void Kuribo::Draw()
+{
+    // ê∂ë∂íÜÇæÇØï`âÊÇ∑ÇÈ
+    if (state == KuriboState::eSave)
+    {
+        DrawCircle(
+            (int)x,
+            (int)y,
+            20,
+            GetColor(255, 0, 0),
+            TRUE
+        );
+    }
+}
