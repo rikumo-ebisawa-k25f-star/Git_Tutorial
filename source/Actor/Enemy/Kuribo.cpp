@@ -11,6 +11,7 @@ Kuribo::Kuribo()
 
 Kuribo::~Kuribo()
 {
+
 }
 
 void Kuribo::Init(float startX, float startY, float moveSpeed)
@@ -48,12 +49,6 @@ void Kuribo::Draw()
     // ê∂ë∂íÜÇæÇØï`âÊÇ∑ÇÈ
     if (state == KuriboState::eSave)
     {
-        DrawCircle(
-            (int)x,
-            (int)y,
-            20,
-            GetColor(255, 0, 0),
-            TRUE
-        );
+        DrawCircle((int)x, (int)y, 20, GetColor(255, 0, 0), TRUE);
     }
 }

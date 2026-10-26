@@ -142,7 +142,6 @@
     <ClCompile Include="source\Actor\Block\Dokan.cpp" />
     <ClCompile Include="source\Actor\Block\HiddenBlock.cpp" />
     <ClCompile Include="source\Actor\Block\ItemBlock.cpp" />
-    <ClCompile Include="source\Actor\Enemy\Kuribo.cpp" />
     <ClCompile Include="source\Actor\Item\1UP.cpp" />
     <ClCompile Include="source\Actor\Item\Coin.cpp" />
     <ClCompile Include="source\Actor\Item\Flower.cpp" />
@@ -163,7 +162,6 @@
     <ClInclude Include="source\Actor\Block\Dokan.h" />
     <ClInclude Include="source\Actor\Block\HiddenBlock.h" />
     <ClInclude Include="source\Actor\Block\ItemBlock.h" />
-    <ClInclude Include="source\Actor\Enemy\Kuribo.h" />
     <ClInclude Include="source\Actor\Item\1UP.h" />
     <ClInclude Include="source\Actor\Item\Coin.h" />
     <ClInclude Include="source\Actor\Item\Flower.h" />
