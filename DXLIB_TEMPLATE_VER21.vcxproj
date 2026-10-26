@@ -142,10 +142,8 @@
     <ClCompile Include="source\Actor\Block\Dokan.cpp" />
     <ClCompile Include="source\Actor\Block\HiddenBlock.cpp" />
     <ClCompile Include="source\Actor\Block\ItemBlock.cpp" />
-    <ClCompile Include="source\Actor\Item\1UP.cpp" />
-    <ClCompile Include="source\Actor\Item\Coin.cpp" />
-    <ClCompile Include="source\Actor\Item\Flower.cpp" />
-    <ClCompile Include="source\Actor\Item\Kinoko.cpp" />
+    <ClCompile Include="source\Actor\Enemy\Kuribo.cpp" />
+    <ClCompile Include="source\Actor\Item\Item.cpp" />
     <ClCompile Include="source\Actor\Player\Mario.cpp" />
     <ClCompile Include="source\Actor\Enemy\Nokonoko.cpp" />
     <ClCompile Include="source\AppMain.cpp" />
@@ -162,10 +160,8 @@
     <ClInclude Include="source\Actor\Block\Dokan.h" />
     <ClInclude Include="source\Actor\Block\HiddenBlock.h" />
     <ClInclude Include="source\Actor\Block\ItemBlock.h" />
-    <ClInclude Include="source\Actor\Item\1UP.h" />
-    <ClInclude Include="source\Actor\Item\Coin.h" />
-    <ClInclude Include="source\Actor\Item\Flower.h" />
-    <ClInclude Include="source\Actor\Item\Kinoko.h" />
+    <ClInclude Include="source\Actor\Enemy\Kuribo.h" />
+    <ClInclude Include="source\Actor\Item\Item.h" />
     <ClInclude Include="source\Actor\Player\Mario.h" />
     <ClInclude Include="source\Actor\Enemy\Nokonoko.h" />
     <ClInclude Include="source\File\StageData.h" />
@@ -173,7 +169,9 @@
     <ClInclude Include="source\Math\MathUtils.h" />
     <ClInclude Include="source\Math\Vector2.h" />
     <ClInclude Include="source\Scene\InGameScene.h" />
+    <ClInclude Include="source\Scene\SceneBase.h" />
     <ClInclude Include="source\Scene\SceneManager.h" />
+    <ClInclude Include="source\Scene\SceneType.h" />
     <ClInclude Include="source\Scene\TitleScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
