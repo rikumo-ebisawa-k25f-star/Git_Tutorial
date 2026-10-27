@@ -37,6 +37,8 @@
 #include "DxLib.h"
 #include <stdio.h>
 
+#include "Actor/Player/Mario.h"
+
 // マップの縦横サイズ（ご自身のCSVの行数・列数に合わせて調整してください）
 #define MAP_WIDTH  69  // 横のマス数
 #define MAP_HEIGHT 2 // 縦のマス数
@@ -117,6 +119,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         printf("CSVファイルの読み込みに失敗しました。\n");
     }
 
+    Mario mario(100.0f, 100.0f);
+
     // 床の画像を読み込み（画像ファイルがある場合）
     int blockImg = LoadGraph("assets/Images/block.png");
 
@@ -126,6 +130,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
         // マップを描画
         DrawMap(blockImg);
+
+        mario.Update();
+        mario.Draw();
 
         ScreenFlip();
     }
