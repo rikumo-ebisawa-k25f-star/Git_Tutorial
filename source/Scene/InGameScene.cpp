@@ -1,45 +1,27 @@
-//#include "InGameScene.h"
-//#include "../Actor/Enemy/Kuribo.h"
-//
-//// 敵のインスタンス
-//Kuribo enemy;
-//
-//// 初期化処理
-//void InGameScene::Init()
-//{
-//    // 敵を画面左側に配置
-//    // x座標: 50、y座標: 240、移動速度: 100
-//    enemy.Init(50.0f, 240.0f, 100.0f);
-//}
-//
-//// 更新処理
-//void InGameScene::Update()
-//{
-//    // 60FPSを想定した経過時間
-//    enemy.Update(1.0f / 60.0f);
-//}
-//
-//// 描画処理
-//void InGameScene::Draw()
-//{
-//    enemy.Draw();
-//}
 #include "DxLib.h"
 #include "InGameScene.h"
 #include "../File/StageData.h"
 
 // シーン内で管理する変数
 static int s_cameraX = 0;
+static int s_blockHandle = -1;  // ← ブロック画像ハンドルをここで定義
 #define SCREEN_WIDTH 640
 
 // 初期化処理
 bool InitInGameScene() {
     s_cameraX = 0;
 
-    // StageData 側の読み込み処理を呼び出す
-    if (!LoadMapCSV("mario_map.csv")) {
+    // マップデータ読み込み
+    if (!LoadMapCSV("assets/Data/mario_map.csv")) {
         return false;
     }
+
+    // ブロック画像読み込み
+    s_blockHandle = LoadGraph("assets/Images/block.png");
+    if (s_blockHandle == -1) {
+        return false; // 読み込み失敗時
+    }
+
     return true;
 }
 
@@ -62,10 +44,14 @@ void UpdateInGameScene() {
 // 描画処理
 void DrawInGameScene() {
     // StageData 側の描画処理を呼び出し
-    DrawMap(s_cameraX, SCREEN_WIDTH);
+    DrawMap(s_blockHandle);
 }
 
 // 終了処理
 void FinalizeInGameScene() {
-    // 必要に応じて画像の解放処理などを記述
+    // 画像の解放処理
+    if (s_blockHandle != -1) {
+        DeleteGraph(s_blockHandle);
+        s_blockHandle = -1;
+    }
 }
