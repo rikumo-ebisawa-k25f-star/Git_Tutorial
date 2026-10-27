@@ -71,24 +71,24 @@ private:
 
 };
 
-//#include "../Actor/Enemy/Kuribo.h"
-//
-//class InGameScene
-//{
-//public:
-//    InGameScene() = default;
-//    ~InGameScene() = default;
-//
-//    // 初期化処理
-//    void Init();
-//
-//    // 更新処理
-//    void Update();
-//
-//    // 描画処理
-//    void Draw();
-//
-//private:
-//    // 右に移動する敵
-//    Kuribo enemy;
-//};
+
+
+class InGameScene
+{
+public:
+    InGameScene() = default;
+    ~InGameScene() = default;
+
+    // 初期化処理
+    void Init();
+
+    // 更新処理
+    void Update();
+
+    // 描画処理
+    void Draw();
+
+private:
+    // 右に移動する敵
+  /*  Kuribo enemy;*/
+};
