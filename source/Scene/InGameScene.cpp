@@ -1,23 +1,57 @@
+#include "DxLib.h"
 #include "InGameScene.h"
-#include <DxLib.h>
+#include "../File/StageData.h"
+
+// シーン内で管理する変数
+static int s_cameraX = 0;
+static int s_blockHandle = -1;  // ← ブロック画像ハンドルをここで定義
+#define SCREEN_WIDTH 640
+
 // 初期化処理
-void InGameScene::Init()
-{
-    // 敵を画面左側に配置
-    // X座標: 50、Y座標: 240、移動速度: 100
-    kuribo.Init(50.0f, 240.0f, 100.0f);
+bool InitInGameScene() {
+    s_cameraX = 0;
+
+    // マップデータ読み込み
+    if (!LoadMapCSV("assets/Data/mario_map.csv")) {
+        return false;
+    }
+
+    // ブロック画像読み込み
+    s_blockHandle = LoadGraph("assets/Images/block.png");
+    if (s_blockHandle == -1) {
+        return false; // 読み込み失敗時
+    }
+
+    return true;
 }
 
-// 更新処理
-void InGameScene::Update()
-{
-    // 60FPSを想定した経過時間
-    kuribo.Update(1.0f / 60.0f);
+// 更新処理（1フレームごとの計算・操作）
+void UpdateInGameScene() {
+    // 左右キーでカメラ（プレイヤー）移動
+    if (CheckHitKey(KEY_INPUT_RIGHT)) s_cameraX += 4;
+    if (CheckHitKey(KEY_INPUT_LEFT))  s_cameraX -= 4;
+
+    // カメラの移動範囲制限
+    if (s_cameraX < 0) {
+        s_cameraX = 0;
+    }
+    int maxCameraX = MAP_WIDTH * CHIP_SIZE - SCREEN_WIDTH;
+    if (s_cameraX > maxCameraX) {
+        s_cameraX = maxCameraX;
+    }
 }
 
 // 描画処理
-void InGameScene::Draw()
-{
-    DrawCircle(320, 240, 50, GetColor(255, 0, 0), TRUE);
-    ScreenFlip();
+void DrawInGameScene() {
+    // StageData 側の描画処理を呼び出し
+    DrawMap(s_blockHandle);
+}
+
+// 終了処理
+void FinalizeInGameScene() {
+    // 画像の解放処理
+    if (s_blockHandle != -1) {
+        DeleteGraph(s_blockHandle);
+        s_blockHandle = -1;
+    }
 }

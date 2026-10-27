@@ -92,3 +92,19 @@ public:
 private:
 	Kuribo kuribo;
 };
+#ifndef IN_GAME_SCENE_H
+#define IN_GAME_SCENE_H
+
+// インゲームシーンの初期化（CSV読み込みなど）
+bool InitInGameScene();
+
+// インゲームシーンの更新処理（入力・カメラ移動など）
+void UpdateInGameScene();
+
+// インゲームシーンの描画処理
+void DrawInGameScene();
+
+// インゲームシーンの終了処理
+void FinalizeInGameScene();
+
+#endif // IN_GAME_SCENE_H
