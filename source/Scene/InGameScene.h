@@ -4,6 +4,7 @@
 #include "../Math/Vector2.h"
 #include <unordered_map>
 #include <vector>
+#include "../Actor/Enemy/Kuribo.h"
 /// <summary>
 /// ƒpƒlƒ‹‚ÌID
 /// </summary>
@@ -89,6 +90,5 @@ public:
     void Draw();
 
 private:
-    // ‰E‚ÉˆÚ“®‚·‚é“G
-  /*  Kuribo enemy;*/
+	Kuribo kuribo;
 };
