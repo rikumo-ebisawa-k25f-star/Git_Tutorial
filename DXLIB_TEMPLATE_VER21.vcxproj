@@ -139,9 +139,6 @@
   <ItemGroup>
     <ClCompile Include="source\Actor\Actor.cpp" />
     <ClCompile Include="source\Actor\Block\Block.cpp" />
-    <ClCompile Include="source\Actor\Block\Dokan.cpp" />
-    <ClCompile Include="source\Actor\Block\HiddenBlock.cpp" />
-    <ClCompile Include="source\Actor\Block\ItemBlock.cpp" />
     <ClCompile Include="source\Actor\Enemy\Kuribo.cpp" />
     <ClCompile Include="source\Actor\Item\Item.cpp" />
     <ClCompile Include="source\Actor\Player\Mario.cpp" />
@@ -157,9 +154,6 @@
   <ItemGroup>
     <ClInclude Include="source\Actor\Actor.h" />
     <ClInclude Include="source\Actor\Block\Block.h" />
-    <ClInclude Include="source\Actor\Block\Dokan.h" />
-    <ClInclude Include="source\Actor\Block\HiddenBlock.h" />
-    <ClInclude Include="source\Actor\Block\ItemBlock.h" />
     <ClInclude Include="source\Actor\Enemy\Kuribo.h" />
     <ClInclude Include="source\Actor\Item\Item.h" />
     <ClInclude Include="source\Actor\Player\Mario.h" />
