@@ -3,8 +3,8 @@
 
 enum class KuriboState
 {
-    eSave,   // ¶‘¶ó‘Ô
-    eDeath   // €–Só‘Ô
+    eSave,
+    eDeath
 };
 
 class Kuribo
@@ -14,15 +14,15 @@ public:
     ~Kuribo();
 
     void Init(float startX, float startY, float speed);
-
     bool Update(float delta_time);
-
-    void Draw();
+    void Draw(float cameraX);
 
 private:
-    float x;
-    float y;
-    float speed;
+    int Kuribo_image;
 
-    KuriboState state;
+    float Kx;
+    float Ky;
+    float Kspeed;
+
+    KuriboState Kstate;
 };

@@ -111,9 +111,12 @@
 #include "InGameScene.h"
 #include "../File/StageData.h"
 #include "../Actor/Player/Mario.h"
+#include "../Actor/Enemy/Kuribo.h"
 
 static int s_cameraX = 0;
 static Mario* s_pMario = nullptr; // マリオのインスタンスポインタ
+static Kuribo s_kuribo;
+
 #define SCREEN_WIDTH 1024
 
 // 初期化処理
@@ -133,6 +136,9 @@ bool InitInGameScene() {
     // マリオのインスタンス生成 (初期座標: X=100, Y=100)
     s_pMario = new Mario(100.0f, 100.0f);
 
+    // 画面右側から出現させる
+    s_kuribo.Init((float)(s_cameraX + SCREEN_WIDTH + 20),360.0f,100.0f);
+
     return true;
 }
 
@@ -151,6 +157,8 @@ void UpdateInGameScene() {
     if (s_pMario) {
         s_pMario->Update();
     }
+    // クリボーの更新
+    s_kuribo.Update(1.0f / 60.0f);
 }
 
 // 描画処理
@@ -162,6 +170,8 @@ void DrawInGameScene() {
     if (s_pMario) {
         s_pMario->Draw();
     }
+    //3.クリボーの描画
+    s_kuribo.Draw((float)s_cameraX);
 }
 
 // 終了処理
