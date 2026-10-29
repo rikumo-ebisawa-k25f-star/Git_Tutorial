@@ -23,21 +23,23 @@ void Kuribo::Init(float startX, float startY, float speed)
     Kstate = KuriboState::eSave;
 }
 
-bool Kuribo::Update(float delta_time)
+bool Kuribo::Update(float delta_time, float cameraX, float screenWidth)
 {
-    // 死亡状態なら更新しない
     if (Kstate == KuriboState::eDeath)
     {
         return false;
     }
 
-    // 右から左へ移動
+    // 左方向へ移動
     Kx -= Kspeed * delta_time;
 
-    // 画面左端を超えたら右側にリスポーン
-    if (Kx < -20.0f)
+    // 画面上のX座標
+    float screenX = Kx - cameraX;
+
+    // 画面左端を超えたら、画面右端の外へリスポーン
+    if (screenX < -20.0f)
     {
-        Kx = 1024.0f + 20.0f;
+        Kx = cameraX + screenWidth + 20.0f;
     }
 
     return true;

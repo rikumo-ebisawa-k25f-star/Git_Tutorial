@@ -14,7 +14,7 @@ public:
     ~Kuribo();
 
     void Init(float startX, float startY, float speed);
-    bool Update(float delta_time);
+    bool Update(float delta_time, float cameraX, float screenWidth);
     void Draw(float cameraX);
 
 private:

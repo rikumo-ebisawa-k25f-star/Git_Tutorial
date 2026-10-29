@@ -137,7 +137,11 @@ bool InitInGameScene() {
     s_pMario = new Mario(100.0f, 100.0f);
 
     // 画面右側から出現させる
-    s_kuribo.Init((float)(s_cameraX + SCREEN_WIDTH + 20),360.0f,100.0f);
+    s_kuribo.Init(
+        (float)(s_cameraX + SCREEN_WIDTH + 20),
+        360.0f,
+        100.0f
+    );
 
     return true;
 }
@@ -158,7 +162,11 @@ void UpdateInGameScene() {
         s_pMario->Update();
     }
     // クリボーの更新
-    s_kuribo.Update(1.0f / 60.0f);
+    s_kuribo.Update(
+        1.0f / 60.0f,
+        (float)s_cameraX,
+        (float)SCREEN_WIDTH
+    );
 }
 
 // 描画処理
