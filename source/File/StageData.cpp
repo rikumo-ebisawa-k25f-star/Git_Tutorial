@@ -39,10 +39,10 @@ bool LoadMapCSV(const char* fileName)
 bool LoadMapImages()
 {
     // 各チップIDに対応する画像をロード
-    s_chipHandles[1] = LoadGraph("assets/Images/Block/floor.png");       // 地面
-    s_chipHandles[2] = LoadGraph("assets/Images/Block/block.png");       // レンガ
-    s_chipHandles[3] = LoadGraph("assets/Images/Block/hatena.png");      // ハテナブロック
-    s_chipHandles[4] = LoadGraph("assets/Images/Block/kai_block.png");   // 階段
+    s_chipHandles[1] = LoadGraph("assets/assets/Images/Block/floor.png");       // 地面
+    s_chipHandles[2] = LoadGraph("assets/assetsImages/Block/block.png");       // レンガ
+    s_chipHandles[3] = LoadGraph("assets/assets/Images/Block/hatena.png");      // ハテナブロック
+    s_chipHandles[4] = LoadGraph("assets/assets/Images/Block/kai_block.png");   // 階段
 
     //// 必須画像の読み込みチェック（エラー判定）
     //if (s_chipHandles[1] == -1 || s_chipHandles[2] == -1 || s_chipHandles[3] == -1)
