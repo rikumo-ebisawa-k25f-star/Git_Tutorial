@@ -1,54 +1,66 @@
+
 #include "Kuribo.h"
 #include <DxLib.h>
 
 Kuribo::Kuribo()
 {
-    x = 0.0f;
-    y = 0.0f;
-    speed = 0.0f;
-    state = KuriboState::eDeath;
+    Kuribo_image = -1;
+    Kx = 0.0f;
+    Ky = 0.0f;
+    Kspeed = 0.0f;
+    Kstate = KuriboState::eSave;
 }
 
 Kuribo::~Kuribo()
 {
-
 }
 
-void Kuribo::Init(float startX, float startY, float moveSpeed)
+void Kuribo::Init(float startX, float startY, float speed)
 {
-    x = startX;
-    y = startY;
-    speed = moveSpeed;
-
-    state = KuriboState::eSave;
+    Kx = startX;
+    Ky = startY;
+    Kspeed = speed;
+    Kstate = KuriboState::eSave;
 }
 
 bool Kuribo::Update(float delta_time)
 {
-    // 死亡していたら更新しない
-    if (state == KuriboState::eDeath)
+    // 死亡状態なら更新しない
+    if (Kstate == KuriboState::eDeath)
     {
-        return false;  
+        return false;
     }
 
-    // 右方向へ移動
-    x += speed * delta_time;
+    // 右から左へ移動
+    Kx -= Kspeed * delta_time;
 
-    // 画面の右端を超えたら死亡
-    if (x > 640.0f)
+    // 画面左端を超えたら右側にリスポーン
+    if (Kx < -20.0f)
     {
-        state = KuriboState::eDeath;
-        return false;
+        Kx = 1024.0f + 20.0f;
     }
 
     return true;
 }
 
-void Kuribo::Draw()
+void Kuribo::Draw(float cameraX)
 {
-    // 生存中だけ描画する
-    if (state == KuriboState::eSave)
+    if (Kstate == KuriboState::eSave)
     {
-        DrawCircle((int)x, (int)y, 20, GetColor(255, 0, 0), TRUE);
+        // ワールド座標から画面座標に変換
+        int screenX = (int)(Kx - cameraX);
+        int screenY = (int)Ky;
+
+        // 画面内にいる場合のみ描画
+        if (screenX >= -20 && screenX <= 1044)
+        {
+            DrawCircle(
+                screenX,
+                screenY,
+                20,
+                GetColor(255, 255, 255),
+                TRUE
+            );
+        }
     }
 }
