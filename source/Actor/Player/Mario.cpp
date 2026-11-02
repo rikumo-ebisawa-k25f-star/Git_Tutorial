@@ -10,25 +10,9 @@ void Mario::Update()
 
 void Mario::Draw()
 {
-    DrawBox((int)x - 16, (int)y - 32, (int)x + 16, (int)y, GetColor(255, 0, 0), TRUE);
+    DrawBox((int)Mx - 16, (int)My - 32, (int)Mx + 16, (int)My, GetColor(255, 0, 0), TRUE);
 }
 
-//void Mario::MoveX()
-//{
-//    if (CheckHitKey(KEY_INPUT_RIGHT))
-//        vx += onGround ? moveAccel : airAccel;
-//    else if (CheckHitKey(KEY_INPUT_LEFT))
-//        vx -= onGround ? moveAccel : airAccel;
-//    else
-//    {
-//        if (vx > 0) vx -= moveDecel;
-//        else if (vx < 0) vx += moveDecel;
-//        if (fabs(vx) < 0.1f) vx = 0.0f;
-//    }
-//
-//    if (vx > maxSpeed) vx = maxSpeed;
-//    if (vx < -maxSpeed) vx = -maxSpeed;
-//}
 
 void Mario::MoveX()
 {
@@ -95,15 +79,15 @@ void Mario::MoveY()
 void Mario::ApplyPhysics()
 {
     vy += gravity;
-    x += vx;
-    y += vy;
+    Mx += vx;
+    My += vy;
 }
 
 void Mario::GroundCheck()
 {
-    if (y >= groundY)
+    if (My >= groundY)
     {
-        y = groundY;
+        My = groundY;
         vy = 0.0f;
         onGround = true;
     }

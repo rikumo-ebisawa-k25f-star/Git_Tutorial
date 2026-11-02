@@ -5,7 +5,7 @@
 class Mario
 {
 public:
-    float x, y;
+    float Mx, My;
     float vx, vy;
     bool onGround;
 
@@ -19,8 +19,8 @@ public:
 
     Mario(float _x = 100.0f, float _y = 100.0f)
     {
-        x = _x;
-        y = _y;
+        Mx = _x;
+        My = _y;
         vx = vy = 0.0f;
         onGround = false;
     }
