@@ -2,7 +2,7 @@
 #include "StageData.h"
 #include <stdio.h>
 #include <DxLib.h>
-
+#include"Player//"
 // マップデータの配列定義
 int g_mapData[MAP_HEIGHT][MAP_WIDTH] = { 0 };
 

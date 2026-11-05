@@ -1,6 +1,6 @@
 #ifndef STAGE_DATA_H
 #define STAGE_DATA_H
-
+#include"../Actor/Player/Mario.h"
 #define CHIP_SIZE 32
 #define MAP_WIDTH 212
 #define MAP_HEIGHT 15
