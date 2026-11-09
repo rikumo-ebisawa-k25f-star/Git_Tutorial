@@ -2,7 +2,7 @@
 #include "StageData.h"
 #include <stdio.h>
 #include <DxLib.h>
-#include"Player//"
+
 // マップデータの配列定義
 int g_mapData[MAP_HEIGHT][MAP_WIDTH] = { 0 };
 
@@ -50,7 +50,10 @@ bool LoadMapImages()
     s_chipHandles[1] = LoadGraph("assets/assets/Images/Block/floor.png");       // 地面
     s_chipHandles[2] = LoadGraph("assets/assets/Images/Block/block.png");       // レンガ (※パスのタイポを修正)
     s_chipHandles[4] = LoadGraph("assets/assets/Images/Block/kai_block.png");   // 階段
-
+    s_chipHandles[5] = LoadGraph("assets/assets/Images/配置素材/dokan_left_up.png");
+    s_chipHandles[6] = LoadGraph("assets/assets/Images/配置素材/dokan_right_up.png");
+    s_chipHandles[7] = LoadGraph("assets/assets/Images/配置素材/dokan_left_down.png");
+    s_chipHandles[8] = LoadGraph("assets/assets/Images/配置素材/dokan_right_down.png");
     LoadDivGraph("assets/assets/Images/Block/hatena.png", 4, 4, 1, CHIP_SIZE, CHIP_SIZE, s_hatenaHandles);
     
 
