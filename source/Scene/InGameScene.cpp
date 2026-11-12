@@ -124,15 +124,19 @@ bool InitInGameScene() {
     s_cameraX = 0;
 
     // マップCSVの読み込み
-    if (!LoadMapCSV("assets/assets/Data/mario_map.csv")) { // ※ファイル名はプロジェクト内の正しい名前に設定
+    //if (!LoadMapCSV("assets/assets/Data/mario_map.csv")) { // ※ファイル名はプロジェクト内の正しい名前に設定
+    //    return false;
+    //}
+    // ※フォルダ内の実際のファイル名に合わせてください（"BackGroundData.csv" か "BackGroundData (1).csv"）
+    if (!LoadMapCSV("assets/assets/Data/BackGroundData (1).csv", g_bgData)) {
         return false;
     }
-
-    // マップ画像の読み込み（StageData側で処理）
+    if (!LoadMapCSV("assets/assets/Data/BlockData.csv", g_blockData)) {
+        return false;
+    }
     if (!LoadMapImages()) {
         return false;
     }
-
     // マリオのインスタンス生成 (初期座標: X=100, Y=100)
     s_pMario = new Mario(100.0f, 100.0f);
 

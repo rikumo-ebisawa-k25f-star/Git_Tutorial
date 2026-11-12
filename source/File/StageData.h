@@ -1,15 +1,16 @@
-#ifndef STAGE_DATA_H
-#define STAGE_DATA_H
-#include"../Actor/Player/Mario.h"
-#define CHIP_SIZE 32
-#define MAP_WIDTH 212
-#define MAP_HEIGHT 15
+#pragma once
 
-extern int g_mapData[MAP_HEIGHT][MAP_WIDTH];
+// 新しいCSV（16行 × 224列）のサイズに合わせる
+#define MAP_HEIGHT 16
+#define MAP_WIDTH  224
+#define CHIP_SIZE  32
 
-bool LoadMapCSV(const char* fileName);
-bool LoadMapImages();      
-void UnloadMapImages();    
-void DrawMap(int cameraX, int screenWidth); // 引数を変更
+// 背景用とブロック用の2つのマップ配列
+extern int g_bgData[MAP_HEIGHT][MAP_WIDTH];
+extern int g_blockData[MAP_HEIGHT][MAP_WIDTH];
 
-#endif
+bool LoadMapCSV(const char* fileName, int targetMap[MAP_HEIGHT][MAP_WIDTH]);
+bool LoadMapImages();
+void UnloadMapImages();
+void UpdateMap();
+void DrawMap(int cameraX, int screenWidth);
