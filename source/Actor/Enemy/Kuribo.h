@@ -1,11 +1,6 @@
-
 #pragma once
 
-enum class KuriboState
-{
-    eSave,
-    eDeath
-};
+#include <vector>
 
 class Kuribo
 {
@@ -13,16 +8,33 @@ public:
     Kuribo();
     ~Kuribo();
 
-    void Init(float startX, float startY, float speed);
-    bool Update(float delta_time, float cameraX, float screenWidth);
+    // 初期化
+    bool Init(
+        const char* enemyFile,
+        const char* blockFile,
+        float chipSize
+    );
+
+    // 更新
+    void Update(float cameraX);
+
+    // 描画
     void Draw(float cameraX);
 
+    // 解放
+    void Clear();
+
 private:
-    int Kuribo_image;
+    struct EnemyData
+    {
+        float x;
+        float y;
+        int type; // 88：クリボー 55：ノコノコ
+    };
 
-    float Kx;
-    float Ky;
-    float Kspeed;
+    std::vector<EnemyData> enemyDataList;
 
-    KuriboState Kstate;
+    // 画像ハンドル
+    int kuriboHandles[3];
+    int nokonokoHandles[4];
 };

@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "../Actor/Enemy/Kuribo.h"
@@ -21,9 +22,6 @@ private:
     Kuribo kuribo;
 };
 
-#ifndef IN_GAME_SCENE_H
-#define IN_GAME_SCENE_H
-
 // インゲームシーンの初期化（CSV読み込みなど）
 bool InitInGameScene();
 
@@ -35,5 +33,3 @@ void DrawInGameScene();
 
 // インゲームシーンの終了処理
 void FinalizeInGameScene();
-
-#endif // IN_GAME_SCENE_H
