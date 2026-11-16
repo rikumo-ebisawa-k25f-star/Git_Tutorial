@@ -69,15 +69,33 @@ bool StageData::LoadMapImages()
     UnloadMapImages();
 
     // 各チップIDに対応する画像をロード
+    //順番は後で変えるので待ってください
+    m_chipHandles[24] = LoadGraph("assets/assets/Images/sora.png");//空
     m_chipHandles[34] = LoadGraph("assets/assets/Images/Block/floor.png");      // 地面
     m_chipHandles[33] = LoadGraph("assets/assets/Images/Block/block.png");      // レンガ
     m_chipHandles[36] = LoadGraph("assets/assets/Images/Block/kai_block.png");  // 階段
-    m_chipHandles[5] = LoadGraph("assets/assets/Images/dokan_left_up.png");
-    m_chipHandles[6] = LoadGraph("assets/assets/Images/dokan_right_up.png");
-    m_chipHandles[7] = LoadGraph("assets/assets/Images/dokan_left_down.png");
-    m_chipHandles[8] = LoadGraph("assets/assets/Images/dokan_right_down.png");
-
-    LoadDivGraph("assets/assets/Images/Block/hatena.png", 4, 4, 1, CHIP_SIZE, CHIP_SIZE, m_hatenaHandles.data());
+    m_chipHandles[7] = LoadGraph("assets/assets/Images/dokan_left_up.png");//土管左側入り口
+    m_chipHandles[9] = LoadGraph("assets/assets/Images/dokan_right_up.png");//土管下側左
+    m_chipHandles[6] = LoadGraph("assets/assets/Images/dokan_left_down.png");//土管左側
+    m_chipHandles[8] = LoadGraph("assets/assets/Images/dokan_right_down.png");//土管下側左
+    m_chipHandles[22] = LoadGraph("assets/assets/Images/pole_down.png");      // ポール
+    m_chipHandles[21] = LoadGraph("assets/assets/Images/pole.png");      // ポールの頂点
+    m_chipHandles[15] = LoadGraph("assets/assets/Images/mountain_left.png");      //山
+    m_chipHandles[16] = LoadGraph("assets/assets/Images/mountain_right.png");//山
+    m_chipHandles[17] = LoadGraph("assets/assets/Images/mountain_surface.png");//山
+    m_chipHandles[18] = LoadGraph("assets/assets/Images/mountain_surface1.png");//山
+    m_chipHandles[19] = LoadGraph("assets/assets/Images/mountain_surface2.png");//山
+    m_chipHandles[20] = LoadGraph("assets/assets/Images/mountain_up.png");//山
+    m_chipHandles[13] = LoadGraph("assets/assets/Images/ha1.png");//草
+    m_chipHandles[12] = LoadGraph("assets/assets/Images/ha0.png");//草
+    m_chipHandles[14] = LoadGraph("assets/assets/Images/ha2.png");//草
+    m_chipHandles[0] = LoadGraph("assets/assets/Images/cloud1.png");//雲
+    m_chipHandles[1] = LoadGraph("assets/assets/Images/cloud2.png");//雲
+    m_chipHandles[2] = LoadGraph("assets/assets/Images/cloud3.png");//雲
+    m_chipHandles[3] = LoadGraph("assets/assets/Images/cloud4.png");//雲
+    m_chipHandles[4] = LoadGraph("assets/assets/Images/cloud5.png");//雲
+    m_chipHandles[5] = LoadGraph("assets/assets/Images/cloud6.png");//雲
+    LoadDivGraph("assets/assets/Images/Block/hatena.png", 4, 4, 1, CHIP_SIZE, CHIP_SIZE, m_hatenaHandles.data());//ハテナブロック
 
     return true;
 }
@@ -115,7 +133,7 @@ void StageData::UpdateMap()
 void StageData::DrawMap(int cameraX, int screenWidth) const
 {
     // 画面に映るX座標の範囲だけを計算してループ回数を削減
-    // std::max と std::min を ( ) で囲む
+   
     int startX = (std::max)(0, cameraX / CHIP_SIZE);
     int endX = (std::min)(MAP_WIDTH - 1, (cameraX + screenWidth) / CHIP_SIZE);
     const unsigned int skyColor = GetColor(107, 136, 255);
@@ -135,17 +153,17 @@ void StageData::DrawMap(int cameraX, int screenWidth) const
             {
                 DrawGraph(drawX, drawY, m_chipHandles[bgType], TRUE);
             }
-            else
+           /* else
             {
                 DrawBox(drawX, drawY, drawX + CHIP_SIZE, drawY + CHIP_SIZE, skyColor, TRUE);
-            }
+            }*/
 
-            // 2. ブロックレイヤーを描画（0は空気なのでスキップ）
+            // 2. ブロックレイヤーを描画
             int blockType = m_blockData[y][x];
             if (blockType == 0) continue;
 
             // ハテナブロックの描画
-            if (blockType == 21 || blockType == 3)
+            if (blockType == 37)
             {
                 if (m_hatenaHandles[m_animFrame] != -1)
                 {
