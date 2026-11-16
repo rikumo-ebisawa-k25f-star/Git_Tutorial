@@ -107,6 +107,96 @@
 //    // マップ画像の解放処理（StageData側で一括解放）
 //    UnloadMapImages();
 //}
+//#include "DxLib.h"
+//#include "InGameScene.h"
+//#include "../File/StageData.h"
+//#include "../Actor/Player/Mario.h"
+//#include "../Actor/Enemy/Kuribo.h"
+//
+//static int s_cameraX = 0;
+//static Mario* s_pMario = nullptr; // マリオのインスタンスポインタ
+//static Kuribo s_kuribo;
+//
+//#define SCREEN_WIDTH 1024
+//
+//// 初期化処理
+//bool InitInGameScene() {
+//    s_cameraX = 0;
+//
+//    // マップCSVの読み込み
+//    //if (!LoadMapCSV("assets/assets/Data/mario_map.csv")) { // ※ファイル名はプロジェクト内の正しい名前に設定
+//    //    return false;
+//    //}
+//    // ※フォルダ内の実際のファイル名に合わせてください（"BackGroundData.csv" か "BackGroundData (1).csv"）
+//    if (!LoadMapCSV("assets/assets/Data/BackGroundData (1).csv", g_bgData)) {
+//        return false;
+//    }
+//    if (!LoadMapCSV("assets/assets/Data/BlockData.csv", g_blockData)) {
+//        return false;
+//    }
+//    if (!LoadMapImages()) {
+//        return false;
+//    }
+//    // マリオのインスタンス生成 (初期座標: X=100, Y=100)
+//    s_pMario = new Mario(100.0f, 100.0f);
+//
+//    // 画面右側から出現させる
+//    s_kuribo.Init(
+//        (float)(s_cameraX + SCREEN_WIDTH + 20),
+//        360.0f,
+//        100.0f
+//    );
+//
+//    return true;
+//}
+//
+//// 更新処理
+//void UpdateInGameScene() {
+//    // 左右キーでカメラ移動
+//    if (CheckHitKey(KEY_INPUT_RIGHT)) s_cameraX += 4;
+//    if (CheckHitKey(KEY_INPUT_LEFT))  s_cameraX -= 4;
+//
+//    // カメラ移動範囲の制限
+//    if (s_cameraX < 0) s_cameraX = 0;
+//    int maxCameraX = MAP_WIDTH * CHIP_SIZE - SCREEN_WIDTH;
+//    if (s_cameraX > maxCameraX) s_cameraX = maxCameraX;
+//
+//    // マリオの更新
+//    if (s_pMario) {
+//        s_pMario->Update();
+//    }
+//    // クリボーの更新
+//    s_kuribo.Update(
+//        1.0f / 60.0f,
+//        (float)s_cameraX,
+//        (float)SCREEN_WIDTH
+//    );
+//}
+//
+//// 描画処理
+//void DrawInGameScene() {
+//    // 1. マップの描画
+//    DrawMap(s_cameraX, SCREEN_WIDTH);
+//
+//    // 2. マリオの描画
+//    if (s_pMario) {
+//        s_pMario->Draw();
+//    }
+//    //3.クリボーの描画
+//    s_kuribo.Draw((float)s_cameraX);
+//}
+//
+//// 終了処理
+//void FinalizeInGameScene() {
+//    // マリオの破棄
+//    if (s_pMario) {
+//        delete s_pMario;
+//        s_pMario = nullptr;
+//    }
+//
+//    // マップ画像の解放
+//    UnloadMapImages();
+//}
 #include "DxLib.h"
 #include "InGameScene.h"
 #include "../File/StageData.h"
@@ -114,29 +204,28 @@
 #include "../Actor/Enemy/Kuribo.h"
 
 static int s_cameraX = 0;
-static Mario* s_pMario = nullptr; // マリオのインスタンスポインタ
+static StageData s_stage;          // ★ステージデータのインスタンスを追加
+static Mario* s_pMario = nullptr;  // マリオのインスタンスポインタ
 static Kuribo s_kuribo;
 
+// ※WinMainの仮想画面サイズ(512)と合わせる場合は 512 に変更してください
 #define SCREEN_WIDTH 1024
 
 // 初期化処理
 bool InitInGameScene() {
     s_cameraX = 0;
 
-    // マップCSVの読み込み
-    //if (!LoadMapCSV("assets/assets/Data/mario_map.csv")) { // ※ファイル名はプロジェクト内の正しい名前に設定
-    //    return false;
-    //}
-    // ※フォルダ内の実際のファイル名に合わせてください（"BackGroundData.csv" か "BackGroundData (1).csv"）
-    if (!LoadMapCSV("assets/assets/Data/BackGroundData (1).csv", g_bgData)) {
+    // ★s_stage のメンバ関数としてCSVと画像を読み込む
+    if (!s_stage.LoadBgCSV("assets/assets/Data/BackGroundData (1).csv")) {
         return false;
     }
-    if (!LoadMapCSV("assets/assets/Data/BlockData.csv", g_blockData)) {
+    if (!s_stage.LoadBlockCSV("assets/assets/Data/BlockData.csv")) {
         return false;
     }
-    if (!LoadMapImages()) {
+    if (!s_stage.LoadMapImages()) {
         return false;
     }
+
     // マリオのインスタンス生成 (初期座標: X=100, Y=100)
     s_pMario = new Mario(100.0f, 100.0f);
 
@@ -152,13 +241,16 @@ bool InitInGameScene() {
 
 // 更新処理
 void UpdateInGameScene() {
+    // ★ハテナブロックのアニメーション更新（元のコードで呼び忘れていた部分）
+    s_stage.UpdateMap();
+
     // 左右キーでカメラ移動
     if (CheckHitKey(KEY_INPUT_RIGHT)) s_cameraX += 4;
     if (CheckHitKey(KEY_INPUT_LEFT))  s_cameraX -= 4;
 
-    // カメラ移動範囲の制限
+    // カメラ移動範囲の制限（★定数は StageData:: から取得）
     if (s_cameraX < 0) s_cameraX = 0;
-    int maxCameraX = MAP_WIDTH * CHIP_SIZE - SCREEN_WIDTH;
+    int maxCameraX = StageData::MAP_WIDTH * StageData::CHIP_SIZE - SCREEN_WIDTH;
     if (s_cameraX > maxCameraX) s_cameraX = maxCameraX;
 
     // マリオの更新
@@ -175,14 +267,14 @@ void UpdateInGameScene() {
 
 // 描画処理
 void DrawInGameScene() {
-    // 1. マップの描画
-    DrawMap(s_cameraX, SCREEN_WIDTH);
+    // 1. マップの描画（★s_stage から呼ぶ）
+    s_stage.DrawMap(s_cameraX, SCREEN_WIDTH);
 
     // 2. マリオの描画
     if (s_pMario) {
         s_pMario->Draw();
     }
-    //3.クリボーの描画
+    // 3. クリボーの描画
     s_kuribo.Draw((float)s_cameraX);
 }
 
@@ -194,6 +286,6 @@ void FinalizeInGameScene() {
         s_pMario = nullptr;
     }
 
-    // マップ画像の解放
-    UnloadMapImages();
+    // マップ画像の解放（★s_stage から呼ぶ）
+    s_stage.UnloadMapImages();
 }
