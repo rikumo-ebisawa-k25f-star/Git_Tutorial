@@ -89,12 +89,13 @@ bool StageData::LoadMapImages()
     m_chipHandles[13] = LoadGraph("assets/assets/Images/ha1.png");//‘
     m_chipHandles[12] = LoadGraph("assets/assets/Images/ha0.png");//‘
     m_chipHandles[14] = LoadGraph("assets/assets/Images/ha2.png");//‘
-    m_chipHandles[0] = LoadGraph("assets/assets/Images/cloud1.png");//‰_
+    m_chipHandles[41] = LoadGraph("assets/assets/Images/cloud1.png");//‰_
     m_chipHandles[1] = LoadGraph("assets/assets/Images/cloud2.png");//‰_
     m_chipHandles[2] = LoadGraph("assets/assets/Images/cloud3.png");//‰_
     m_chipHandles[3] = LoadGraph("assets/assets/Images/cloud4.png");//‰_
     m_chipHandles[4] = LoadGraph("assets/assets/Images/cloud5.png");//‰_
     m_chipHandles[5] = LoadGraph("assets/assets/Images/cloud6.png");//‰_
+    m_chipHandles[40] = LoadGraph("assets/assets/Images/siro1.png");//‰_
     LoadDivGraph("assets/assets/Images/Block/hatena.png", 4, 4, 1, CHIP_SIZE, CHIP_SIZE, m_hatenaHandles.data());//ƒnƒeƒiƒuƒƒbƒN
 
     return true;
