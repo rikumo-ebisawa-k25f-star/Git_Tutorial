@@ -195,3 +195,14 @@ int StageData::GetBlockChip(int x, int y) const
     }
     return m_blockData[y][x];
 }
+bool StageData::IsSolidBlock(int chipX, int chipY) const
+{
+    int id = GetBlockChip(chipX, chipY);
+
+    // 0（空気）や、ゴールポール（21, 22）など「すり抜けるもの」以外は壁（true）とする
+    if (id == 0 || id == 21 || id == 22)
+    {
+        return false;
+    }
+    return true;
+}
