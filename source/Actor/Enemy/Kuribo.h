@@ -30,6 +30,7 @@ private:
         float x;
         float y;
         int type; // 88：クリボー 55：ノコノコ
+        bool isActive;// 画面に映ったら true になって歩き始める
     };
 
     std::vector<EnemyData> enemyDataList;

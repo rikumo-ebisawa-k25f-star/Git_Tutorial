@@ -33,12 +33,21 @@ bool Kuribo::Init(
         kuriboHandles
     );
 
-    // ノコノコ画像（32×32を4コマ）
-    LoadDivGraph(
-        "assets/assets/Images/Enemy/nokonoko.png",
-        4, 2, 2, 32, 32,
-        nokonokoHandles
-    );
+    // ノコノコ画像（横2コマ・縦1コマで画像サイズに合わせて自動分割）
+    int nokoW = 0, nokoH = 0;
+    int tempHandle = LoadGraph("assets/assets/Images/Enemy/nokonoko.png");
+    if (tempHandle != -1)
+    {
+        GetGraphSize(tempHandle, &nokoW, &nokoH);
+        DeleteGraph(tempHandle);
+
+        // 横に2体並んでいるので、1コマの幅は nokoW / 2、高さは nokoH
+        LoadDivGraph(
+            "assets/assets/Images/Enemy/nokonoko.png",
+            2, 2, 1, nokoW / 2, nokoH,
+            nokonokoHandles
+        );
+    }
 
     // 敵CSV読み込み
     std::ifstream enemyCsv(enemyFile);
@@ -106,7 +115,7 @@ bool Kuribo::Init(
                 int groundY = -1;
 
                 // 敵の下にある地面を探す
-                for (int by = y + 1; by < (int)blockMap.size(); by++)
+                for (int by = y; by < (int)blockMap.size(); by++)
                 {
                     if (x < (int)blockMap[by].size() &&
                         blockMap[by][x] != 0)
@@ -125,8 +134,18 @@ bool Kuribo::Init(
                 EnemyData data;
 
                 data.x = x * chipSize;
-                data.y = groundY * chipSize - 32.0f;
+                // ノコノコは64px、クリボーは32px
+                if (id == 55)
+                {
+                    // ノコノコを32px上に移動
+                    data.y = groundY * chipSize - 64;
+                }
+                else
+                {
+                    data.y = groundY * chipSize - 32;
+                }
                 data.type = id;
+                data.isActive = false; // 最初は待機状態
 
                 enemyDataList.push_back(data);
             }
@@ -143,8 +162,26 @@ bool Kuribo::Init(
 // 更新処理
 void Kuribo::Update(float cameraX)
 {
-    // 敵は移動させない
-    // カメラ移動に合わせて描画位置だけ変更する
+    const float SCREEN_WIDTH = 1024.0f; // Draw関数に合わせて1024に設定
+    const float MOVE_SPEED = 1.5f;      // 移動速度（お好みで調整してください）
+
+    for (EnemyData& data : enemyDataList)
+    {
+        // まだ動き出していない場合、画面内（右端より内側）に入ったら起動
+        if (!data.isActive)
+        {
+            if (data.x <= cameraX + SCREEN_WIDTH && data.x + 32.0f >= cameraX)
+            {
+                data.isActive = true;
+            }
+        }
+
+        // 起動済みなら左へ移動
+        if (data.isActive)
+        {
+            data.x -= MOVE_SPEED;
+        }
+    }
 }
 
 // 描画処理
@@ -158,25 +195,18 @@ void Kuribo::Draw(float cameraX)
         if (screenX < -32 || screenX > 1024)
             continue;
 
+        // 起動中のみ 0 と 1 を交互に切り替える
+        int animIndex = data.isActive ? ((GetNowCount() / 200) % 2) : 0;
+
         if (data.type == 88)
         {
             // クリボー
-            DrawGraph(
-                screenX,
-                screenY,
-                kuriboHandles[0],
-                TRUE
-            );
+            DrawGraph(screenX, screenY, kuriboHandles[animIndex], TRUE);
         }
         else if (data.type == 55)
         {
             // ノコノコ
-            DrawGraph(
-                screenX,
-                screenY,
-                nokonokoHandles[0],
-                TRUE
-            );
+            DrawGraph(screenX, screenY, nokonokoHandles[animIndex], TRUE);
         }
     }
 }
