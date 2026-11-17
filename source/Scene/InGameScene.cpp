@@ -62,17 +62,7 @@ void UpdateInGameScene() {
         s_pMario->Update();
     }
     // 敵の更新
-    s_kuribo.Update(s_cameraX);
-
-    //int hitResult = s_kuribo.CheckPlayerCollision(player.x, player.y, 32, 32, player.vy);
-    //if (hitResult == 1)
-    //{
-    //    // 敵を踏んだ！（必要なら効果音再生やスコア加算）
-    //}
-    //else if (hitResult == 2)
-    //{
-    //    // 敵にぶつかった！（プレイヤーのダメージ・ミス処理）
-    //}
+    s_kuribo.Update((float)s_cameraX);
 }
 
 // 描画処理
