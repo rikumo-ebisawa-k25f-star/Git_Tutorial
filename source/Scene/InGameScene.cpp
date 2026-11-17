@@ -9,6 +9,8 @@ static StageData s_stage;          // ★ステージデータのインスタンスを追加
 static Mario* s_pMario = nullptr;  // マリオのインスタンスポインタ
 static Kuribo s_kuribo;
 
+static void CheckCollision();
+
 // ※WinMainの仮想画面サイズ(512)と合わせる場合は 512 に変更してください
 #define SCREEN_WIDTH 512
 
@@ -60,19 +62,12 @@ void UpdateInGameScene() {
     // マリオの更新
     if (s_pMario) {
         s_pMario->Update();
+
+        CheckCollision();
     }
     // 敵の更新
-    s_kuribo.Update(s_cameraX);
+    s_kuribo.Update((float)s_cameraX);
 
-    //int hitResult = s_kuribo.CheckPlayerCollision(player.x, player.y, 32, 32, player.vy);
-    //if (hitResult == 1)
-    //{
-    //    // 敵を踏んだ！（必要なら効果音再生やスコア加算）
-    //}
-    //else if (hitResult == 2)
-    //{
-    //    // 敵にぶつかった！（プレイヤーのダメージ・ミス処理）
-    //}
 }
 
 // 描画処理
@@ -98,4 +93,49 @@ void FinalizeInGameScene() {
 
     // マップ画像の解放（★s_stage から呼ぶ）
     s_stage.UnloadMapImages();
+}
+
+static void CheckCollision()
+{
+    Rect rect = s_pMario->GetRect();
+
+    int leftFootX =
+        (int)(rect.left + 2) /
+        StageData::CHIP_SIZE;
+
+    int rightFootX =
+        (int)(rect.right - 2) /
+        StageData::CHIP_SIZE;
+
+    int footY =
+        (int)(rect.bottom) /
+        StageData::CHIP_SIZE;
+
+    bool leftGround =
+        s_stage.IsSolidBlock(
+            leftFootX,
+            footY);
+
+    bool rightGround =
+        s_stage.IsSolidBlock(
+            rightFootX,
+            footY);
+
+    if (leftGround || rightGround)
+    {
+        float blockTop =
+            footY * StageData::CHIP_SIZE;
+
+        s_pMario->SetPos(
+            s_pMario->GetX(),
+            blockTop);
+
+        s_pMario->SetVY(0.0f);
+
+        s_pMario->SetGround(true);
+    }
+    else
+    {
+        s_pMario->SetGround(false);
+    }
 }
