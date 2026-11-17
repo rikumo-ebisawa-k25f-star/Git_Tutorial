@@ -10,7 +10,7 @@ public:
     static constexpr int MAP_WIDTH = 224;
     static constexpr int CHIP_SIZE = 32;
     static constexpr int MAX_CHIP_TYPES = 100;
-
+    bool IsSolidBlock(int chipX, int chipY) const;
     // 2次元配列の型エイリアス
     using MapGrid = std::array<std::array<int, MAP_WIDTH>, MAP_HEIGHT>;
 
@@ -34,6 +34,7 @@ public:
     const MapGrid& GetBgData() const { return m_bgData; }
     const MapGrid& GetBlockData() const { return m_blockData; }
     int GetBlockChip(int x, int y) const;
+
 
 private:
     // 共通のCSV読み込み内部関数
