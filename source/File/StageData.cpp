@@ -69,33 +69,39 @@ bool StageData::LoadMapImages()
     UnloadMapImages();
 
     // Šeƒ`ƒbƒvID‚É‘Î‰‚·‚é‰æ‘œ‚ğƒ[ƒh
-    //‡”Ô‚ÍŒã‚Å•Ï‚¦‚é‚Ì‚Å‘Ò‚Á‚Ä‚­‚¾‚³‚¢
-    m_chipHandles[24] = LoadGraph("assets/assets/Images/sora.png");//‹ó
-    m_chipHandles[34] = LoadGraph("assets/assets/Images/Block/floor.png");      // ’n–Ê
-    m_chipHandles[33] = LoadGraph("assets/assets/Images/Block/block.png");      // ƒŒƒ“ƒK
-    m_chipHandles[36] = LoadGraph("assets/assets/Images/Block/kai_block.png");  // ŠK’i
-    m_chipHandles[7] = LoadGraph("assets/assets/Images/dokan_left_up.png");//“yŠÇ¶‘¤“ü‚èŒû
-    m_chipHandles[9] = LoadGraph("assets/assets/Images/dokan_right_up.png");//“yŠÇ‰º‘¤¶
-    m_chipHandles[6] = LoadGraph("assets/assets/Images/dokan_left_down.png");//“yŠÇ¶‘¤
-    m_chipHandles[8] = LoadGraph("assets/assets/Images/dokan_right_down.png");//“yŠÇ‰º‘¤¶
-    m_chipHandles[22] = LoadGraph("assets/assets/Images/pole_down.png");      // ƒ|[ƒ‹
-    m_chipHandles[21] = LoadGraph("assets/assets/Images/pole.png");      // ƒ|[ƒ‹‚Ì’¸“_
-    m_chipHandles[15] = LoadGraph("assets/assets/Images/mountain_left.png");      //R
-    m_chipHandles[16] = LoadGraph("assets/assets/Images/mountain_right.png");//R
-    m_chipHandles[17] = LoadGraph("assets/assets/Images/mountain_surface.png");//R
-    m_chipHandles[18] = LoadGraph("assets/assets/Images/mountain_surface1.png");//R
-    m_chipHandles[19] = LoadGraph("assets/assets/Images/mountain_surface2.png");//R
-    m_chipHandles[20] = LoadGraph("assets/assets/Images/mountain_up.png");//R
-    m_chipHandles[13] = LoadGraph("assets/assets/Images/ha1.png");//‘
-    m_chipHandles[12] = LoadGraph("assets/assets/Images/ha0.png");//‘
-    m_chipHandles[14] = LoadGraph("assets/assets/Images/ha2.png");//‘
-    m_chipHandles[41] = LoadGraph("assets/assets/Images/cloud1.png");//‰_
-    m_chipHandles[1] = LoadGraph("assets/assets/Images/cloud2.png");//‰_
-    m_chipHandles[2] = LoadGraph("assets/assets/Images/cloud3.png");//‰_
-    m_chipHandles[3] = LoadGraph("assets/assets/Images/cloud4.png");//‰_
-    m_chipHandles[4] = LoadGraph("assets/assets/Images/cloud5.png");//‰_
-    m_chipHandles[5] = LoadGraph("assets/assets/Images/cloud6.png");//‰_
-    m_chipHandles[40] = LoadGraph("assets/assets/Images/siro1.png");//‰_
+   // --- ”wŒii‰_E‘EREƒ|[ƒ‹E‹óEéj ---
+    m_chipHandles[1] = LoadGraph("assets/assets/Images/cloud2.png");            // ‰_
+    m_chipHandles[2] = LoadGraph("assets/assets/Images/cloud3.png");            // ‰_
+    m_chipHandles[3] = LoadGraph("assets/assets/Images/cloud4.png");            // ‰_
+    m_chipHandles[4] = LoadGraph("assets/assets/Images/cloud5.png");            // ‰_
+    m_chipHandles[5] = LoadGraph("assets/assets/Images/cloud6.png");            // ‰_
+
+    m_chipHandles[12] = LoadGraph("assets/assets/Images/ha0.png");               // ‘
+    m_chipHandles[13] = LoadGraph("assets/assets/Images/ha1.png");               // ‘
+    m_chipHandles[14] = LoadGraph("assets/assets/Images/ha2.png");               // ‘
+
+    m_chipHandles[15] = LoadGraph("assets/assets/Images/mountain_left.png");     // R
+    m_chipHandles[16] = LoadGraph("assets/assets/Images/mountain_right.png");    // R
+    m_chipHandles[17] = LoadGraph("assets/assets/Images/mountain_surface.png");  // R
+    m_chipHandles[18] = LoadGraph("assets/assets/Images/mountain_surface1.png"); // R
+    m_chipHandles[19] = LoadGraph("assets/assets/Images/mountain_surface2.png"); // R
+    m_chipHandles[20] = LoadGraph("assets/assets/Images/mountain_up.png");       // R
+
+    m_chipHandles[21] = LoadGraph("assets/assets/Images/pole.png");              // ƒ|[ƒ‹‚Ì’¸“_
+    m_chipHandles[22] = LoadGraph("assets/assets/Images/pole_down.png");         // ƒ|[ƒ‹
+    m_chipHandles[24] = LoadGraph("assets/assets/Images/sora.png");              // ‹ó
+    m_chipHandles[40] = LoadGraph("assets/assets/Images/siro1.png");             // é
+    m_chipHandles[41] = LoadGraph("assets/assets/Images/cloud1.png");            // ‰_
+
+    // --- ƒuƒƒbƒNE“yŠÇ ---
+    m_chipHandles[6] = LoadGraph("assets/assets/Images/dokan_left_down.png");   // “yŠÇ‰º‘¤¶
+    m_chipHandles[7] = LoadGraph("assets/assets/Images/dokan_left_up.png");     // “yŠÇã‘¤¶
+    m_chipHandles[8] = LoadGraph("assets/assets/Images/dokan_right_down.png");  // “yŠÇ‰º‘¤‰E
+    m_chipHandles[9] = LoadGraph("assets/assets/Images/dokan_right_up.png");    // “yŠÇã‘¤‰E
+
+    m_chipHandles[33] = LoadGraph("assets/assets/Images/Block/block.png");       // ƒŒƒ“ƒK
+    m_chipHandles[34] = LoadGraph("assets/assets/Images/Block/floor.png");       // ’n–Ê
+    m_chipHandles[36] = LoadGraph("assets/assets/Images/Block/kai_block.png");   // ŠK’i
     LoadDivGraph("assets/assets/Images/Block/hatena.png", 4, 4, 1, CHIP_SIZE, CHIP_SIZE, m_hatenaHandles.data());//ƒnƒeƒiƒuƒƒbƒN
 
     return true;
