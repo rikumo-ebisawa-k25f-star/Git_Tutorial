@@ -70,6 +70,7 @@ bool StageData::LoadMapImages()
 
     // 各チップIDに対応する画像をロード
    // --- 背景（雲・草・山・ポール・空・城） ---
+    
     m_chipHandles[1] = LoadGraph("assets/assets/Images/cloud2.png");            // 雲
     m_chipHandles[2] = LoadGraph("assets/assets/Images/cloud3.png");            // 雲
     m_chipHandles[3] = LoadGraph("assets/assets/Images/cloud4.png");            // 雲
@@ -90,9 +91,9 @@ bool StageData::LoadMapImages()
     m_chipHandles[21] = LoadGraph("assets/assets/Images/pole.png");              // ポールの頂点
     m_chipHandles[22] = LoadGraph("assets/assets/Images/pole_down.png");         // ポール
     m_chipHandles[24] = LoadGraph("assets/assets/Images/sora.png");              // 空
-    m_chipHandles[40] = LoadGraph("assets/assets/Images/siro1.png");             // 城
+              // 城
     m_chipHandles[41] = LoadGraph("assets/assets/Images/cloud1.png");            // 雲
-
+    m_chipHandles[40] = LoadGraph("assets/assets/Images/siro1.png");
     // --- ブロック・土管 ---
     m_chipHandles[6] = LoadGraph("assets/assets/Images/dokan_left_down.png");   // 土管下側左
     m_chipHandles[7] = LoadGraph("assets/assets/Images/dokan_left_up.png");     // 土管上側左
@@ -188,6 +189,21 @@ void StageData::DrawMap(int cameraX, int screenWidth) const
             else
             {
                 DrawBox(drawX, drawY, drawX + CHIP_SIZE, drawY + CHIP_SIZE, blockFallbackColor, TRUE);
+            }
+        }
+    }
+    for (int y = 0; y < MAP_HEIGHT; ++y)
+    {
+        // 画面左端に城の左端がはみ出た時も消えないよう、少し左から探す
+        int castleStartX = (std::max)(0, startX - 5);
+        for (int x = castleStartX; x <= endX; ++x)
+        {
+            if (m_bgData[y][x] == 40 && m_chipHandles[40] != -1)
+            {
+                int drawX = x * CHIP_SIZE - cameraX;
+                int drawY = y * CHIP_SIZE;
+                // ※もし城が地面に埋まる場合は drawY - (画像高さ - CHIP_SIZE) に調整
+                DrawGraph(drawX, drawY, m_chipHandles[40], TRUE);
             }
         }
     }
