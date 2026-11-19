@@ -69,33 +69,40 @@ bool StageData::LoadMapImages()
     UnloadMapImages();
 
     // 各チップIDに対応する画像をロード
-    //順番は後で変えるので待ってください
-    m_chipHandles[24] = LoadGraph("assets/assets/Images/sora.png");//空
-    m_chipHandles[34] = LoadGraph("assets/assets/Images/Block/floor.png");      // 地面
-    m_chipHandles[33] = LoadGraph("assets/assets/Images/Block/block.png");      // レンガ
-    m_chipHandles[36] = LoadGraph("assets/assets/Images/Block/kai_block.png");  // 階段
-    m_chipHandles[7] = LoadGraph("assets/assets/Images/dokan_left_up.png");//土管左側入り口
-    m_chipHandles[9] = LoadGraph("assets/assets/Images/dokan_right_up.png");//土管下側左
-    m_chipHandles[6] = LoadGraph("assets/assets/Images/dokan_left_down.png");//土管左側
-    m_chipHandles[8] = LoadGraph("assets/assets/Images/dokan_right_down.png");//土管下側左
-    m_chipHandles[22] = LoadGraph("assets/assets/Images/pole_down.png");      // ポール
-    m_chipHandles[21] = LoadGraph("assets/assets/Images/pole.png");      // ポールの頂点
-    m_chipHandles[15] = LoadGraph("assets/assets/Images/mountain_left.png");      //山
-    m_chipHandles[16] = LoadGraph("assets/assets/Images/mountain_right.png");//山
-    m_chipHandles[17] = LoadGraph("assets/assets/Images/mountain_surface.png");//山
-    m_chipHandles[18] = LoadGraph("assets/assets/Images/mountain_surface1.png");//山
-    m_chipHandles[19] = LoadGraph("assets/assets/Images/mountain_surface2.png");//山
-    m_chipHandles[20] = LoadGraph("assets/assets/Images/mountain_up.png");//山
-    m_chipHandles[13] = LoadGraph("assets/assets/Images/ha1.png");//草
-    m_chipHandles[12] = LoadGraph("assets/assets/Images/ha0.png");//草
-    m_chipHandles[14] = LoadGraph("assets/assets/Images/ha2.png");//草
-    m_chipHandles[41] = LoadGraph("assets/assets/Images/cloud1.png");//雲
-    m_chipHandles[1] = LoadGraph("assets/assets/Images/cloud2.png");//雲
-    m_chipHandles[2] = LoadGraph("assets/assets/Images/cloud3.png");//雲
-    m_chipHandles[3] = LoadGraph("assets/assets/Images/cloud4.png");//雲
-    m_chipHandles[4] = LoadGraph("assets/assets/Images/cloud5.png");//雲
-    m_chipHandles[5] = LoadGraph("assets/assets/Images/cloud6.png");//雲
-    m_chipHandles[40] = LoadGraph("assets/assets/Images/siro1.png");//雲
+   // --- 背景（雲・草・山・ポール・空・城） ---
+    
+    m_chipHandles[1] = LoadGraph("assets/assets/Images/cloud2.png");            // 雲
+    m_chipHandles[2] = LoadGraph("assets/assets/Images/cloud3.png");            // 雲
+    m_chipHandles[3] = LoadGraph("assets/assets/Images/cloud4.png");            // 雲
+    m_chipHandles[4] = LoadGraph("assets/assets/Images/cloud5.png");            // 雲
+    m_chipHandles[5] = LoadGraph("assets/assets/Images/cloud6.png");            // 雲
+
+    m_chipHandles[12] = LoadGraph("assets/assets/Images/ha0.png");               // 草
+    m_chipHandles[13] = LoadGraph("assets/assets/Images/ha1.png");               // 草
+    m_chipHandles[14] = LoadGraph("assets/assets/Images/ha2.png");               // 草
+
+    m_chipHandles[15] = LoadGraph("assets/assets/Images/mountain_left.png");     // 山
+    m_chipHandles[16] = LoadGraph("assets/assets/Images/mountain_right.png");    // 山
+    m_chipHandles[17] = LoadGraph("assets/assets/Images/mountain_surface.png");  // 山
+    m_chipHandles[18] = LoadGraph("assets/assets/Images/mountain_surface1.png"); // 山
+    m_chipHandles[19] = LoadGraph("assets/assets/Images/mountain_surface2.png"); // 山
+    m_chipHandles[20] = LoadGraph("assets/assets/Images/mountain_up.png");       // 山
+
+    m_chipHandles[21] = LoadGraph("assets/assets/Images/pole.png");              // ポールの頂点
+    m_chipHandles[22] = LoadGraph("assets/assets/Images/pole_down.png");         // ポール
+    m_chipHandles[24] = LoadGraph("assets/assets/Images/sora.png");              // 空
+              // 城
+    m_chipHandles[41] = LoadGraph("assets/assets/Images/cloud1.png");            // 雲
+    m_chipHandles[40] = LoadGraph("assets/assets/Images/siro1.png");
+    // --- ブロック・土管 ---
+    m_chipHandles[6] = LoadGraph("assets/assets/Images/dokan_left_down.png");   // 土管下側左
+    m_chipHandles[7] = LoadGraph("assets/assets/Images/dokan_left_up.png");     // 土管上側左
+    m_chipHandles[8] = LoadGraph("assets/assets/Images/dokan_right_down.png");  // 土管下側右
+    m_chipHandles[9] = LoadGraph("assets/assets/Images/dokan_right_up.png");    // 土管上側右
+
+    m_chipHandles[33] = LoadGraph("assets/assets/Images/Block/block.png");       // レンガ
+    m_chipHandles[34] = LoadGraph("assets/assets/Images/Block/floor.png");       // 地面
+    m_chipHandles[36] = LoadGraph("assets/assets/Images/Block/kai_block.png");   // 階段
     LoadDivGraph("assets/assets/Images/Block/hatena.png", 4, 4, 1, CHIP_SIZE, CHIP_SIZE, m_hatenaHandles.data());//ハテナブロック
 
     return true;
@@ -182,6 +189,21 @@ void StageData::DrawMap(int cameraX, int screenWidth) const
             else
             {
                 DrawBox(drawX, drawY, drawX + CHIP_SIZE, drawY + CHIP_SIZE, blockFallbackColor, TRUE);
+            }
+        }
+    }
+    for (int y = 0; y < MAP_HEIGHT; ++y)
+    {
+        // 画面左端に城の左端がはみ出た時も消えないよう、少し左から探す
+        int castleStartX = (std::max)(0, startX - 5);
+        for (int x = castleStartX; x <= endX; ++x)
+        {
+            if (m_bgData[y][x] == 40 && m_chipHandles[40] != -1)
+            {
+                int drawX = x * CHIP_SIZE - cameraX;
+                int drawY = y * CHIP_SIZE;
+                // ※もし城が地面に埋まる場合は drawY - (画像高さ - CHIP_SIZE) に調整
+                DrawGraph(drawX, drawY, m_chipHandles[40], TRUE);
             }
         }
     }

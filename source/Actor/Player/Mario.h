@@ -106,5 +106,5 @@ private:
     const float maxSpeed = 2.5f;
     const float dashSpeed = 4.0f;
 
-    const float jumpPower = -12.0f;
+    const float jumpPower = -15.0f;
 };
