@@ -1,106 +1,4 @@
-//#include "Mario.h"
-//
-//void Mario::Update()
-//{
-//    MoveX();
-//    MoveY();
-//    ApplyPhysics();
-//    GroundCheck();
-//}
-//
-//void Mario::Draw()
-//{
-//    DrawBox((int)Mx - 16, (int)My - 32, (int)Mx + 16, (int)My, GetColor(255, 0, 0), TRUE);
-//}
-//
-//
-//void Mario::MoveX()
-//{
-//    float currentMaxSpeed = maxSpeed;
-//
-//    // Xキーでダッシュ
-//    if (CheckHitKey(KEY_INPUT_X))
-//    {
-//        currentMaxSpeed = 4.0f; // ダッシュ時の最高速度
-//    }
-//
-//    if (CheckHitKey(KEY_INPUT_RIGHT))
-//    {
-//        float accel = onGround ? moveAccel : airAccel;
-//        vx += accel;
-//    }
-//    else if (CheckHitKey(KEY_INPUT_LEFT))
-//    {
-//        float accel = onGround ? moveAccel : airAccel;
-//        vx -= accel;
-//    }
-//    else
-//    {
-//        if (vx > 0) vx -= moveDecel;
-//        else if (vx < 0) vx += moveDecel;
-//
-//        if (fabs(vx) < 0.1f)
-//            vx = 0.0f;
-//    }
-//
-//    // 最高速度制限
-//    if (vx > currentMaxSpeed)
-//        vx = currentMaxSpeed;
-//
-//    if (vx < -currentMaxSpeed)
-//        vx = -currentMaxSpeed;
-//}
-////
-////void Mario::MoveY()
-////{
-////    if (onGround && CheckHitKey(KEY_INPUT_Z))
-////    {
-////        vy = jumpPower;
-////        onGround = false;
-////    }
-////}
-//
-//void Mario::MoveY()
-//{
-//    // ジャンプ開始
-//    if (onGround && CheckHitKey(KEY_INPUT_Z))
-//    {
-//        vy = jumpPower;
-//        onGround = false;
-//    }
-//
-//    // 上昇中にボタンを離したら高さを抑える
-//    if (!CheckHitKey(KEY_INPUT_Z) && vy < 0)
-//    {
-//        vy *= 0.85f;
-//    }
-//}
-//
-//void Mario::ApplyPhysics()
-//{
-//    vy += gravity;
-//    Mx += vx;
-//    My += vy;
-//}
-//
-//void Mario::GroundCheck()
-//{
-//    if (My >= groundY)
-//    {
-//        My = groundY;
-//        vy = 0.0f;
-//        onGround = true;
-//    }
-//    else
-//    {
-//        onGround = false;
-//    }
-//}
-
-
 #include "Mario.h"
-
-#include <cmath>
 
 Mario::Mario(float x, float y)
 {
@@ -120,77 +18,85 @@ void Mario::Update()
     ApplyPhysics();
 }
 
-void Mario::Draw()
+void Mario::Draw(int cameraX)
 {
     DrawBox(
-        (int)(Mx - 16),
+        (int)(Mx - cameraX - 16),
         (int)(My - 32),
-        (int)(Mx + 16),
+        (int)(Mx - cameraX + 16),
         (int)(My),
         GetColor(255, 0, 0),
         TRUE);
 }
-
 void Mario::MoveX()
 {
-    float currentMaxSpeed = maxSpeed;
+    float limitSpeed = maxSpeed;
 
+    // ダッシュ
     if (CheckHitKey(KEY_INPUT_X))
     {
-        currentMaxSpeed = dashSpeed;
+        limitSpeed = dashSpeed;
     }
 
+    // 右移動
     if (CheckHitKey(KEY_INPUT_RIGHT))
     {
-        float accel = onGround ? moveAccel : airAccel;
-        vx += accel;
+        vx += onGround ? moveAccel : airAccel;
     }
+    // 左移動
     else if (CheckHitKey(KEY_INPUT_LEFT))
     {
-        float accel = onGround ? moveAccel : airAccel;
-        vx -= accel;
+        vx -= onGround ? moveAccel : airAccel;
     }
+    // 減速
     else
     {
-        if (vx > 0.0f)
+        if (vx > 0)
         {
             vx -= moveDecel;
-            if (vx < 0.0f)
+
+            if (vx < 0)
             {
-                vx = 0.0f;
+                vx = 0;
             }
         }
-        else if (vx < 0.0f)
+
+        if (vx < 0)
         {
             vx += moveDecel;
-            if (vx > 0.0f)
+
+            if (vx > 0)
             {
-                vx = 0.0f;
+                vx = 0;
             }
         }
     }
 
-    if (vx > currentMaxSpeed)
+    // 最高速度制限
+    if (vx > limitSpeed)
     {
-        vx = currentMaxSpeed;
+        vx = limitSpeed;
     }
 
-    if (vx < -currentMaxSpeed)
+    if (vx < -limitSpeed)
     {
-        vx = -currentMaxSpeed;
+        vx = -limitSpeed;
     }
 }
 
 void Mario::MoveY()
 {
-    if (onGround && CheckHitKey(KEY_INPUT_Z))
+    // ジャンプ開始
+    if (onGround &&
+        CheckHitKey(KEY_INPUT_Z))
     {
         vy = jumpPower;
         onGround = false;
     }
 
     // 可変ジャンプ
-    if (!CheckHitKey(KEY_INPUT_Z) && vy < 0.0f)
+    if (!CheckHitKey(KEY_INPUT_Z) &&
+        vy < 0.0f)
     {
         vy *= 0.85f;
     }
@@ -245,20 +151,22 @@ void Mario::SetGround(bool flag)
     onGround = flag;
 }
 
-bool Mario::IsGround() const
+float Mario::GetFootLeftX() const
 {
-    return onGround;
+    return Mx - 12.0f;
 }
 
-Rect Mario::GetRect() const
+float Mario::GetFootCenterX() const
 {
-    Rect rect;
+    return Mx;
+}
 
-    rect.left = Mx - 16;
-    rect.top = My - 32;
+float Mario::GetFootRightX() const
+{
+    return Mx + 12.0f;
+}
 
-    rect.right = Mx + 16;
-    rect.bottom = My;
-
-    return rect;
+float Mario::GetFootY() const
+{
+    return My;
 }
