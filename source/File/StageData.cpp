@@ -192,21 +192,7 @@ void StageData::DrawMap(int cameraX, int screenWidth) const
             }
         }
     }
-    for (int y = 0; y < MAP_HEIGHT; ++y)
-    {
-        // 画面左端に城の左端がはみ出た時も消えないよう、少し左から探す
-        int castleStartX = (std::max)(0, startX - 5);
-        for (int x = castleStartX; x <= endX; ++x)
-        {
-            if (m_bgData[y][x] == 40 && m_chipHandles[40] != -1)
-            {
-                int drawX = x * CHIP_SIZE - cameraX;
-                int drawY = y * CHIP_SIZE;
-                // ※もし城が地面に埋まる場合は drawY - (画像高さ - CHIP_SIZE) に調整
-                DrawGraph(drawX, drawY, m_chipHandles[40], TRUE);
-            }
-        }
-    }
+    
 }
 
 int StageData::GetBlockChip(int x, int y) const
