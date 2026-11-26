@@ -1,6 +1,7 @@
 #pragma once
 class StageData;
-enum class ItemType {
+enum class ItemType 
+{
     Mushroom,   // スーパーキノコ
     OneUp,      // 1UPキノコ
     Flower,     // ファイアフラワー

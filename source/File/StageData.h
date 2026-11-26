@@ -21,7 +21,7 @@ public:
     // CSVファイルの読み込み
     bool LoadBgCSV(const std::string& fileName);
     bool LoadBlockCSV(const std::string& fileName);
-
+    void BreakBlock(int chipX, int chipY);
     // 画像素材の読み込み・解放
     bool LoadMapImages();
     void UnloadMapImages();

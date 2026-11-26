@@ -214,3 +214,10 @@ bool StageData::IsSolidBlock(int chipX, int chipY) const
     }
     return true;
 }
+void StageData::BreakBlock(int chipX, int chipY)
+{
+    if (GetBlockChip(chipX, chipY) == 33) // レンガブロックなら
+    {
+        m_blockData[chipY][chipX] = 0;    // 0（空気）にして消す
+    }
+}
